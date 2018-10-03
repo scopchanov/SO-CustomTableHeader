@@ -25,21 +25,22 @@ SOFTWARE.
 #include "HeaderView.h"
 
 HeaderView::HeaderView(Qt::Orientation orientation, QWidget *parent) :
-	QHeaderView(orientation, parent)
+	QHeaderView(orientation, parent),
+	isChecked_(false)
 {
-
+	connect(this, &HeaderView::sectionClicked, [this](){
+		isChecked_ ^= 1;
+	});
 }
 
 void HeaderView::paintSection(QPainter *painter, const QRect &rect, int /*logicalIndex*/) const
 {
-//	QHeaderView::paintSection(painter, rect, logicalIndex);
-
 	QStyleOptionButton option;
-	option.rect = rect;//QRect(3,10,16,16);
+	option.rect = rect;
 	option.state = QStyle::State_Enabled | QStyle::State_Active;
-//	if (isChecked())
-//		option.state |= QStyle::State_On;
-//	else
+	if (isChecked_)
+		option.state |= QStyle::State_On;
+	else
 		option.state |= QStyle::State_Off;
 	style()->drawPrimitive(QStyle::PE_IndicatorCheckBox, &option, painter);
 }

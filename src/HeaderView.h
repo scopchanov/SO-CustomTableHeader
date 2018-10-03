@@ -33,9 +33,11 @@ class HeaderView : public QHeaderView
 public:
 	explicit HeaderView(Qt::Orientation orientation, QWidget *parent = nullptr);
 
-	// QHeaderView interface
 protected:
 	void paintSection(QPainter *painter, const QRect &rect, int) const override;
+
+private:
+	bool isChecked_;
 };
 
 #endif // HEADERVIEW_H
